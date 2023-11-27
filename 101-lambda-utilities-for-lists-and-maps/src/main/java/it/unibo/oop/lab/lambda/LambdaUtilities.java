@@ -16,6 +16,8 @@ import java.util.function.UnaryOperator;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import javax.swing.text.html.Option;
+
 /**
  * This class will contain four utility functions on lists and maps, of which the first one is provided as example.
  * 
@@ -126,7 +128,15 @@ public final class LambdaUtilities {
          *
          * Keep in mind that a map can be iterated through its forEach method
          */
-        return null;
+        Map<K, V> newMap = new LinkedHashMap<>();
+        map.forEach((key, value) -> {
+            if (value.isEmpty()) {
+                newMap.put(key, def.get());
+            } else {
+                newMap.put(key, value.get());
+            }
+        });
+        return newMap;
     }
 
     /**
