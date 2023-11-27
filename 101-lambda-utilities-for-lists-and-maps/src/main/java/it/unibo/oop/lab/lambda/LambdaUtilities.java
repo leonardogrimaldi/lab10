@@ -98,15 +98,14 @@ public final class LambdaUtilities {
          */
         Map<R, Set<T>> map = new LinkedHashMap<>();
         list.forEach(t -> {
-            final var key = categoryOf.apply(t);
-            map.merge(key, Set.of(t), (previousSet, newSet) -> {
-                final var mergedSet = new LinkedHashSet<>()
+            map.merge(categoryOf.apply(t), Set.of(t), (previousSet, newSet) -> {
+                final var mergedSet = new LinkedHashSet<>(previousSet);
+                mergedSet.addAll(newSet);
+                return mergedSet;
             });
         });
-        map.forEach((key, value) -> {
-            
-        });
-        return null;
+        
+        return map;
     }
 
     /**
