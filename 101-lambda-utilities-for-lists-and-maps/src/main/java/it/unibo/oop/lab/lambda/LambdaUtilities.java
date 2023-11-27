@@ -2,6 +2,8 @@ package it.unibo.oop.lab.lambda;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
@@ -63,7 +65,7 @@ public final class LambdaUtilities {
          * Suggestion: consider Optional.filter
          */
         final List<Optional<T>> l = new ArrayList<>();
-        list.forEach(t -> {
+        /*list.forEach(t -> {
             if (!pre.test(t)) {
                 if (!l.isEmpty()) {
                     l.remove(l.size() - 1);
@@ -71,14 +73,16 @@ public final class LambdaUtilities {
                 l.add(Optional.empty());
             }
             l.add(Optional.of(t));
-        });
+        });*/
+
+        list.forEach(t -> l.add(Optional.of(t).filter(pre)));
         return l;
     }
 
     /**
      * @param list
      *            input list
-     * @param op
+     * @param categoryOf
      *            a function that, for each element, computes a key
      * @param <T>
      *            element type
@@ -87,11 +91,21 @@ public final class LambdaUtilities {
      * @return a map that groups into categories each element of the input list,
      *         based on the mapping done by the function
      */
-    public static <R, T> Map<R, Set<T>> group(final List<T> list, final Function<T, R> op) {
+    public static <R, T> Map<R, Set<T>> group(final List<T> list, final Function<T, R> categoryOf) {
+        categoryOf.apply(list.get(0));
         /*
          * Suggestion: consider Map.merge
          */
-
+        Map<R, Set<T>> map = new LinkedHashMap<>();
+        list.forEach(t -> {
+            final var key = categoryOf.apply(t);
+            map.merge(key, Set.of(t), (previousSet, newSet) -> {
+                final var mergedSet = new LinkedHashSet<>()
+            });
+        });
+        map.forEach((key, value) -> {
+            
+        });
         return null;
     }
 
